@@ -1,0 +1,83 @@
+<div class="container">
+  <div class="content">
+    <div class="row">
+      <div class="col-sm">
+        <div class="mx-auto fit tiny-padding-top">
+          <ui5-label for="inputMatnr">Materialnummer</ui5-label><br>
+          <ui5-input id="inputMatnr" show-suggestions placeholder="Matnr"></ui5-input>
+        </div>
+
+
+
+
+
+        <div class="mx-auto fit padding-top">
+          <div *ngIf="customerMaterial">
+            <h6>Ergebnisse aus dem SAP-System</h6>
+            <div class="mx-auto fit">
+              <ui5-label for="inputSAPMatnr">Materialnummer</ui5-label><br>
+              <ui5-input id="inputSAPMatnr" readonly [value]="customerMaterial.MaterialByCustomer"></ui5-input><br>
+
+              <ui5-label for="inputSAPMaktx">Materialtext</ui5-label><br>
+              <ui5-input id="inputSAPMaktx" readonly [value]="customerMaterial.MaterialDescriptionByCustomer">
+              </ui5-input>
+              <br>
+
+              <ui5-label for="inputSAPIntMatnr">Interne Materialnummer</ui5-label><br>
+              <ui5-input id="inputSAPIntMatnr" readonly [value]="customerMaterial.Material"></ui5-input><br>
+            </div>
+          </div>
+        </div>
+
+        <div class="padding-top">
+
+          <ui5-table *ngIf="stockData" id="stockTable">
+
+            <!-- Columns -->
+            <ui5-table-column slot="columns">
+              <span style="line-height: 1.4rem"></span>
+            </ui5-table-column>
+            <ui5-table-column slot="columns">
+              <span style="line-height: 1.4rem">Werk</span>
+            </ui5-table-column>
+
+            <ui5-table-column slot="columns">
+              <span style="line-height: 1.4rem">Lagerort</span>
+            </ui5-table-column>
+
+            <ui5-table-column slot="columns">
+              <span style="line-height: 1.4rem">Menge</span>
+            </ui5-table-column>
+
+            <!-- Rows -->
+            <ui5-table-row *ngFor="let stockDataItem of stockData.to_MatlStkInAcctMod.results" _tab-index="-1"
+              slot="default-1">
+              <ui5-table-cell class="checkbox" first-in-row="" slot="default-1">
+                <ui5-checkbox text=""></ui5-checkbox>
+              </ui5-table-cell>
+              <ui5-table-cell slot="default-1">
+                <div class="double-line-content"><span><b>{{stockDataItem.Plant}}</b></span></div>
+              </ui5-table-cell>
+              <ui5-table-cell slot="default-2">
+                <span< class="middle">{{stockDataItem.StorageLocation}}</span>
+              </ui5-table-cell>
+              <ui5-table-cell slot="default-3"><span class="middle">{{stockDataItem.MatlWrhsStkQtyInMatlBaseUnit}}
+                  {{stockDataItem.MaterialBaseUnit}}</span></ui5-table-cell>
+            </ui5-table-row>
+          </ui5-table>
+
+        </div>
+      </div>
+    </div>
+  </div>
+
+
+</div>
+
+<footer>
+  <div class="container border floating-footer-container">
+    <ui5-button class="right margin-right" design="Positive" (click)="postMaterialDocument()">Wareneingang buchen
+    </ui5-button>
+    <ui5-button class="right margin-right" design="Negative">Abbrechen</ui5-button>
+  </div>
+</footer>

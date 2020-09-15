@@ -1,0 +1,47 @@
+footer {
+  position: fixed;
+  bottom: 0;
+  width: 100%;
+  line-height: 60px;
+}
+
+.border {
+  border: thin solid black;
+  border-radius: 5px;
+}
+
+.fit {
+  width: fit-content;
+}
+
+.tiny-padding-top {
+  padding-top: 1rem;
+}
+
+
+.padding-top {
+  padding-top: 2rem;
+}
+
+.floating-footer-container {
+  height: 47px;
+  margin-bottom: 10px;
+  padding: 5px;
+  margin-left: 5px;
+  margin-right: 5px;
+  max-width: 100%;
+  width: calc(100% - 10px);
+}
+
+.right {
+  float: right;
+}
+
+.margin-right {
+  margin-right: 4px;
+}
+
+
+.content {
+  margin-bottom: 100px;
+}
