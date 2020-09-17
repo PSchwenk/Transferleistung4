@@ -59,7 +59,7 @@
                 <div class="double-line-content"><span><b>{{stockDataItem.Plant}}</b></span></div>
               </ui5-table-cell>
               <ui5-table-cell slot="default-2">
-                <span< class="middle">{{stockDataItem.StorageLocation}}</span>
+                <span class="middle">{{stockDataItem.StorageLocation}}</span>
               </ui5-table-cell>
               <ui5-table-cell slot="default-3"><span class="middle">{{stockDataItem.MatlWrhsStkQtyInMatlBaseUnit}}
                   {{stockDataItem.MaterialBaseUnit}}</span></ui5-table-cell>
@@ -67,11 +67,17 @@
           </ui5-table>
 
         </div>
+        <div class="mx-auto fit tiny-padding-top" id="inputAmountArea">
+          <div class="row">
+            <ui5-input [value]="inputAmount" placeholder="Anzahl eingeben"></ui5-input>
+            <span class="amountUnit">ST</span>
+          </div>
+
+        </div>
+
       </div>
     </div>
   </div>
-
-
 </div>
 
 <footer>

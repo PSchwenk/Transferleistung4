@@ -42,9 +42,6 @@ export class MaterialDocumentService extends OdataService {
     this.http
       .get(this.url, httpOptions).subscribe(
         function handle(resp: any) { // json data
-          console.log(resp);
-
-
           var headers_object_new = new HttpHeaders({
             "Content-Type": "application/json",
             "Accept": "application/json",
@@ -64,7 +61,7 @@ export class MaterialDocumentService extends OdataService {
             .post(this.url + "A_MaterialDocumentHeader", oData, httpOptions_new)
             .subscribe(
               data => { // json data
-                console.log(data);
+                console.log('Success: ', data);
               },
               error => {
                 console.log('Error: ', error);

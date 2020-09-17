@@ -30,6 +30,7 @@ export class HomeComponent implements OnInit {
   public customerMaterial: any;
   private chosenMatItem: any;
   private custMatArray: any;
+  public inputAmount: number;
 
 
   constructor(private _custMatService: CustomerMaterialService, private _materialStockService: MaterialStockService, private _materialDocumentService: MaterialDocumentService) {
@@ -37,15 +38,15 @@ export class HomeComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    this.inputAmount = 1;
+    this.hideAmountInput();
+
     this._custMatService.getAllCustomerMaterial()
       .subscribe(
         function success(data: any) { // json data
-          console.log(data);
-
           var input: any = document.getElementById("inputMatnr");
 
           this.custMatArray = data.d.results;
-
 
           // listen for the input event
           input.addEventListener("input", event => {
@@ -65,8 +66,6 @@ export class HomeComponent implements OnInit {
 
             // add the new suggestions according to the  user input
             suggestionItems.forEach(item => {
-              // console.log("Test");
-
               var li: any = document.createElement("ui5-suggestion-item");
               li.icon = "product";
               li.info = "auswählen";
@@ -82,20 +81,11 @@ export class HomeComponent implements OnInit {
           input.addEventListener("suggestionItemSelect", function handle(item) {
             var custMat = item.detail.item.getAttribute('text');
 
-            console.log(this.custMatArray);
-            console.log(custMat);
-
-
-
             this.customerMaterial = this.custMatArray.filter(item => {
               return item.MaterialByCustomer === custMat
             })[0];
 
-            console.log(this.customerMaterial);
-
-
             this.chosenMatItem = this.customerMaterial;
-            console.log(this);
             this.loadStockForMatnr(this.customerMaterial.Material);
           }.bind(this));
         }.bind(this),
@@ -103,6 +93,17 @@ export class HomeComponent implements OnInit {
           console.log('Error: ', error);
         });
   }
+
+  showAmountInput() {
+    var input = document.getElementById("inputAmountArea");
+    input.style.visibility = "visible";
+  }
+
+  hideAmountInput() {
+    var input = document.getElementById("inputAmountArea");
+    input.style.visibility = "hidden";
+  }
+
 
   loadCustomerMaterialInformationByMatnr(matnr) {
     this._custMatService.getCustomerMaterialByMatnr(matnr).subscribe(
@@ -114,14 +115,13 @@ export class HomeComponent implements OnInit {
   loadStockForMatnr(matnr) {
     this._materialStockService.getMatStockByMatnr(matnr).subscribe(
       function success(data: any) { // json data
-        console.log(data.d);
+
+        this.showAmountInput();
 
         this.stockData = data.d;
-        console.log(this.stockData.to_MatlStkInAcctMod.results);
-
 
         this.stockData.to_MatlStkInAcctMod.results = this.stockData.to_MatlStkInAcctMod.results.filter(item => {
-          return item.StorageLocation != "" && item.Plant != "";
+          return item.StorageLocation != "" && item.InventorySpecialStockType == "" && item.InventoryStockType == "01";
         });
 
         setTimeout(() => {
@@ -133,7 +133,6 @@ export class HomeComponent implements OnInit {
             });
 
             row.detail.row.querySelector('.checkbox').querySelector('ui5-checkbox').setAttribute('checked', true);
-            console.log(row);
           });
         }, 0);
 
@@ -145,7 +144,6 @@ export class HomeComponent implements OnInit {
 
 
   postMaterialDocument() {
-    console.log("Post");
     this._materialDocumentService.addStock();
     this.loadStockForMatnr(this.customerMaterial.Material);
   }
